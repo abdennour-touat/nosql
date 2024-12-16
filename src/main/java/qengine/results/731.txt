@@ -1,0 +1,11 @@
+Execution of  StarQuery{label='SELECT ?v0 WHERE {
+	?v0 <http://ogp.me/ns#tag> <http://db.uwaterloo.ca/~galuc/wsdbm/Topic210> .
+	?v0 <http://xmlns.com/foaf/homepage> <http://db.uwaterloo.ca/~galuc/wsdbm/Website7> . }',
+	 rdfAtoms=[<?v0, http://ogp.me/ns#tag, http://db.uwaterloo.ca/~galuc/wsdbm/Topic210>, <?v0, http://xmlns.com/foaf/homepage, http://db.uwaterloo.ca/~galuc/wsdbm/Website7>],
+	 answerVariables=[?v0],
+	 centralVariable=?v0}:
+Answers:
+MINE
+No answer.
+INTEGRAAL
+No answer.

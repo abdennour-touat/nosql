@@ -1,0 +1,10 @@
+Execution of  StarQuery{label='SELECT ?v0 WHERE {
+	?v0 <http://schema.org/nationality> <http://db.uwaterloo.ca/~galuc/wsdbm/Country51> . }',
+	 rdfAtoms=[<?v0, http://schema.org/nationality, http://db.uwaterloo.ca/~galuc/wsdbm/Country51>],
+	 answerVariables=[?v0],
+	 centralVariable=?v0}:
+Answers:
+MINE
+No answer.
+INTEGRAAL
+No answer.

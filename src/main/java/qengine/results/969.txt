@@ -1,0 +1,12 @@
+Execution of  StarQuery{label='SELECT ?v0 WHERE {
+	?v0 <http://purl.org/dc/terms/Location> <http://db.uwaterloo.ca/~galuc/wsdbm/City18> .
+	?v0 <http://schema.org/nationality> <http://db.uwaterloo.ca/~galuc/wsdbm/Country155> .
+	?v0 <http://db.uwaterloo.ca/~galuc/wsdbm/gender> <http://db.uwaterloo.ca/~galuc/wsdbm/Gender1> . }',
+	 rdfAtoms=[<?v0, http://purl.org/dc/terms/Location, http://db.uwaterloo.ca/~galuc/wsdbm/City18>, <?v0, http://schema.org/nationality, http://db.uwaterloo.ca/~galuc/wsdbm/Country155>, <?v0, http://db.uwaterloo.ca/~galuc/wsdbm/gender, http://db.uwaterloo.ca/~galuc/wsdbm/Gender1>],
+	 answerVariables=[?v0],
+	 centralVariable=?v0}:
+Answers:
+MINE
+No answer.
+INTEGRAAL
+No answer.

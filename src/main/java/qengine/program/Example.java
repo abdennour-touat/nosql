@@ -2,6 +2,9 @@ package qengine.program;
 
 import fr.boreal.model.formula.api.FOFormula;
 import fr.boreal.model.formula.api.FOFormulaConjunction;
+import fr.boreal.model.logicalElements.api.Literal;
+import fr.boreal.model.logicalElements.api.Variable;
+import fr.boreal.model.logicalElements.factory.impl.SameObjectTermFactory;
 import fr.boreal.model.query.api.Query;
 import fr.boreal.model.kb.api.FactBase;
 import fr.boreal.model.query.api.FOQuery;
@@ -14,10 +17,11 @@ import qengine.model.RDFAtom;
 import qengine.model.StarQuery;
 import qengine.parser.RDFAtomParser;
 import qengine.parser.StarQuerySparQLParser;
+import qengine.storage.RDFHexaStore;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HexFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +31,8 @@ public final class Example {
 	private static final String SAMPLE_DATA_FILE = WORKING_DIR + "sample_data.nt";
 	private static final String SAMPLE_QUERY_FILE = WORKING_DIR + "sample_query.queryset";
 
+	private static final String H_DATA_FILE = WORKING_DIR + "100k.nt";
+	private static final String QUERY_FILE = WORKING_DIR + "STAR_ALL_workload.queryset";
 	public static void main(String[] args) throws IOException {
 		/*
 		 * Exemple d'utilisation des deux parsers
@@ -42,13 +48,35 @@ public final class Example {
 		 */
 		System.out.println("\n=== Executing the queries with Integraal ===");
 		FactBase factBase = new SimpleInMemoryGraphStore();
+
 		for (RDFAtom atom : rdfAtoms) {
 			factBase.add(atom);  // Stocker chaque RDFAtom dans le store
 		}
+		RDFHexaStore rdfHexaStore = new RDFHexaStore();
+		rdfAtoms.forEach(rdfHexaStore::add);
 
+//		RDFHexaStore rdf = new RDFHexaStore();
+//		rdf.addAll(rdfAtoms.stream());
+
+		final Variable VAR_X = SameObjectTermFactory.instance().createOrGetVariable("?x");
+		final Variable VAR_Y = SameObjectTermFactory.instance().createOrGetVariable("?y");
+		final Variable VAR_Z = SameObjectTermFactory.instance().createOrGetVariable("?z");
+		final Literal<String> SUBJECT_1 = SameObjectTermFactory.instance().createOrGetLiteral("http://db.uwaterloo.ca/~galuc/wsdbm/User1");
+		final Literal<String> OBJECT_1 = SameObjectTermFactory.instance().createOrGetLiteral("2536508");
+
+		RDFAtom matchingAtom = new RDFAtom(SUBJECT_1, VAR_Y, OBJECT_1);
+
+
+		System.out.println("########################");
+		rdfHexaStore.match(matchingAtom).forEachRemaining(System.out::println);
+		System.out.println("########################");
 		// Exécuter les requêtes sur le store
+		int i = 0;
 		for (StarQuery starQuery : starQueries) {
-			executeStarQuery(starQuery, factBase);
+//			var one = executeStarQuery(starQuery, factBase);
+//			var two = executeStarQuery2(starQuery, rdfHexaStore);
+////			saveResults(starQuery, one, two, i+".txt");
+			i++;
 		}
 	}
 
@@ -109,7 +137,7 @@ public final class Example {
 	 * @param starQuery La requête à exécuter
 	 * @param factBase  Le store contenant les atomes
 	 */
-	private static void executeStarQuery(StarQuery starQuery, FactBase factBase) {
+	private static Iterator<Substitution> executeStarQuery(StarQuery starQuery, FactBase factBase) {
 		FOQuery<FOFormulaConjunction> foQuery = starQuery.asFOQuery(); // Conversion en FOQuery
 		FOQueryEvaluator<FOFormula> evaluator = GenericFOQueryEvaluator.defaultInstance(); // Créer un évaluateur
 		Iterator<Substitution> queryResults = evaluator.evaluate(foQuery, factBase); // Évaluer la requête
@@ -124,5 +152,46 @@ public final class Example {
 			System.out.println(result); // Afficher chaque réponse
 		}
 		System.out.println();
+		return queryResults;
+	}
+	private static Iterator<Substitution> executeStarQuery2(StarQuery starQuery, RDFHexaStore rdfHexaStore) {
+			var result = rdfHexaStore.match(starQuery);
+			System.out.printf("Execution of  %s:%n MINE \n", starQuery);
+			System.out.println("Answers:");
+			if (!result.hasNext()) {
+				System.out.println("No answer.");
+			}
+			while (result.hasNext()) {
+				Substitution substitution = result.next();
+				System.out.println(substitution); // Afficher chaque réponse
+			}
+			System.out.println();
+			return result;
+	}
+	private static void saveResults(StarQuery starQuery, Iterator<Substitution> queryResults1,Iterator<Substitution> queryResults2,String filename) {
+
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+			writer.write("Execution of  " + starQuery + ":\n");
+			writer.write("Answers:\n");
+			writer.write("MINE\n");
+			if (!queryResults1.hasNext()) {
+				writer.write("No answer.\n");
+			}
+			while (queryResults1.hasNext()) {
+				Substitution substitution = queryResults1.next();
+				writer.write(substitution + "\n");
+			}
+			writer.write("INTEGRAAL\n");
+			if (!queryResults2.hasNext()) {
+				writer.write("No answer.\n");
+			}
+			while (queryResults2.hasNext()) {
+				Substitution substitution = queryResults2.next();
+				writer.write(substitution + "\n");
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

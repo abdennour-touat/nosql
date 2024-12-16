@@ -1,0 +1,11 @@
+Execution of  StarQuery{label='SELECT ?v0 WHERE {
+	?v0 <http://purl.org/goodrelations/includes> <http://db.uwaterloo.ca/~galuc/wsdbm/Product163> .
+}',
+	 rdfAtoms=[<?v0, http://purl.org/goodrelations/includes, http://db.uwaterloo.ca/~galuc/wsdbm/Product163>],
+	 answerVariables=[?v0],
+	 centralVariable=?v0}:
+Answers:
+MINE
+No answer.
+INTEGRAAL
+No answer.

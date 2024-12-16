@@ -1,0 +1,12 @@
+Execution of  StarQuery{label='SELECT ?v0 WHERE {
+	?v0 <http://db.uwaterloo.ca/~galuc/wsdbm/subscribes> <http://db.uwaterloo.ca/~galuc/wsdbm/Website44> .
+	?v0 <http://db.uwaterloo.ca/~galuc/wsdbm/likes> <http://db.uwaterloo.ca/~galuc/wsdbm/Product207> .
+}',
+	 rdfAtoms=[<?v0, http://db.uwaterloo.ca/~galuc/wsdbm/subscribes, http://db.uwaterloo.ca/~galuc/wsdbm/Website44>, <?v0, http://db.uwaterloo.ca/~galuc/wsdbm/likes, http://db.uwaterloo.ca/~galuc/wsdbm/Product207>],
+	 answerVariables=[?v0],
+	 centralVariable=?v0}:
+Answers:
+MINE
+No answer.
+INTEGRAAL
+No answer.
